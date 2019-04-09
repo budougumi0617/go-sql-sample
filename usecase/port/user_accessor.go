@@ -20,4 +20,4 @@ type UserReader interface {
 // UserWriter stores User data into a data store.
 type UserWriter interface {
 	AddUser(context.Context, *entity.User) error
-
+}
