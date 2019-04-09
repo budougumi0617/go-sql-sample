@@ -1,0 +1,11 @@
+development:
+    dialect: mysql
+    dir: db/migrations
+    datasource: ${SHOTEN6_MYSQL_USER}:@tcp(127.0.0.1:${SHOTEN6_MYSQL_PORT})/sql_sample?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true
+
+# Dummy setting
+production:
+    dialect: postgres
+    dir: migrations/postgres
+    datasource: dbname=myapp sslmode=disable
+    table: migrations
