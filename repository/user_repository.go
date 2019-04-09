@@ -11,7 +11,13 @@ import (
 // FindUser gets user from repository.
 func (repo *Repo) FindUser(ctx context.Context, id int64) (*entity.User, error) {
 	u := &entity.User{}
-	err := repo.db.QueryRowContext(ctx, `
+	conn, err := repo.db.Conn(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer conn.Close()
+
+	err = conn.QueryRowContext(ctx, `
 		SELECT id, name, email, created_at, updated_at FROM user WHERE id = ?
 	`, id).Scan(
 		&u.ID,
@@ -31,7 +37,13 @@ func (repo *Repo) FindUser(ctx context.Context, id int64) (*entity.User, error) 
 
 // AddUser adds user to repository.
 func (repo *Repo) AddUser(ctx context.Context, u *entity.User) error {
-	stmt, err := repo.db.PrepareContext(ctx, `
+	conn, err := repo.db.Conn(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	stmt, err := conn.PrepareContext(ctx, `
         INSERT INTO user (name, email, created_at, updated_at)
         VALUES (?, ?, ?, ?)
     `)
