@@ -7,7 +7,7 @@ executors:
       # CircleCI MySQL images available at: https://hub.docker.com/r/circleci/mysql/
       - image: circleci/mysql:5.7-ram
 
-    working_directory: /go/src/github.com/budougumi0617/caww
+    working_directory: /go/src/github.com/budougumi0617/go-sql-sample
 
     # Environment values for all container
     environment:
