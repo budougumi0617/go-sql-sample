@@ -43,20 +43,16 @@ func (repo *Repo) AddUser(ctx context.Context, u *entity.User) error {
 	}
 	defer conn.Close()
 
-	stmt, err := conn.PrepareContext(ctx, `
+	now := time.Now()
+	res, err := conn.ExecContext(ctx, `
         INSERT INTO user (name, email, created_at, updated_at)
         VALUES (?, ?, ?, ?)
-    `)
+    `, u.Name, u.Email, now, now,
+	)
 	if err != nil {
 		return err
 	}
-	defer stmt.Close()
-	now := time.Now()
 
-	res, err := stmt.ExecContext(ctx, u.Name, u.Email, now, now)
-	if err != nil {
-		return err
-	}
 	id, err := res.LastInsertId() // 挿入した行のIDを返却
 	if err != nil {
 		return err

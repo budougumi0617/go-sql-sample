@@ -81,10 +81,10 @@ func TestRepo_AddUser(t *testing.T) {
 	ctx := context.Background()
 	repo := NewRepo(mockdb)
 
-	mock.ExpectPrepare(`
+	mock.ExpectExec(`
         INSERT INTO user \(name, email, created_at, updated_at\)
         VALUES \(\?, \?, \?, \?\)
-    `).ExpectExec().WithArgs(
+    `).WithArgs(
 		o.Name,
 		o.Email,
 		sqlmock.AnyArg(),
